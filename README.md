@@ -2,17 +2,44 @@
 
 This tap publishes Homebrew formulae maintained by Afterdark Systems.
 
-Once installed, users can add the tap and install Fable with:
+Install a published formula:
 
     brew tap afterdarksys/tap
-    brew install fable
+    brew install formula-name
 
-## Publishing Fable
+## Publish a script or Node CLI
 
-First create and push a version tag in afterdarksys/ads-fable-skills. Then run:
+Create and push a version tag in the source repository, then run this from the
+tap checkout:
 
-    scripts/update-fable-formula.sh v0.1.0 --publish
+    scripts/publish-formula.sh \
+      --repo afterdarksys/project-name \
+      --tag v1.2.3 \
+      --formula project-name \
+      --class ProjectName \
+      --description "One clear sentence" \
+      --install bin/project-name \
+      --publish
 
-The script downloads the immutable GitHub tag archive, calculates its SHA-256,
-updates Formula/fable.rb, commits the formula, and pushes this tap. Without
---publish it only writes the formula so it can be reviewed first.
+Add --node when the executable requires Node. The script downloads the immutable
+GitHub tag archive, calculates its SHA-256, writes Formula/project-name.rb, and
+commits/pushes only when --publish is present. Omit --publish to inspect the
+formula first.
+
+The formula generator is for already-executable scripts and Node CLIs. Compiled
+projects need an explicit build recipe in their formula; start with a generated
+formula only if its archive already contains the executable you intend to run.
+
+## Fable
+
+Use:
+
+    scripts/publish-formula.sh \
+      --repo afterdarksys/ads-fable-skills \
+      --tag v0.1.0 \
+      --formula fable \
+      --class Fable \
+      --description "Build, validate, and install reusable agent-neutral skills" \
+      --install bin/fable.js \
+      --node \
+      --publish
