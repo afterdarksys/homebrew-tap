@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "repo": "afterdarksys/project-name",
+  "tag": "v1.2.3",
+  "formula": "project-name",
+  "class": "ProjectName",
+  "description": "One clear sentence describing the tool",
+  "license": "MIT",
+  "build": {
+    "kind": "go",
+    "target": "./cmd/project-name",
+    "binary": "project-name"
+  }
+}

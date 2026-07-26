@@ -1,45 +1,30 @@
 # Afterdark Homebrew Tap
 
-This tap publishes Homebrew formulae maintained by Afterdark Systems.
-
 Install a published formula:
 
     brew tap afterdarksys/tap
     brew install formula-name
 
-## Publish a script or Node CLI
+## Publish from a versioned project spec
 
-Create and push a version tag in the source repository, then run this from the
-tap checkout:
+Copy templates/homebrew-formula.json into a source repository and set its
+metadata plus one build kind: script, node-script, python-script, go, rust,
+cmake, make, or autotools. Then tag and push that source repository.
 
-    scripts/publish-formula.sh \
-      --repo afterdarksys/project-name \
-      --tag v1.2.3 \
-      --formula project-name \
-      --class ProjectName \
-      --description "One clear sentence" \
-      --install bin/project-name \
-      --publish
+From this tap checkout:
 
-Add --node when the executable requires Node. The script downloads the immutable
-GitHub tag archive, calculates its SHA-256, writes Formula/project-name.rb, and
-commits/pushes only when --publish is present. Omit --publish to inspect the
-formula first.
+    scripts/publish-spec.sh --spec ~/development/project/homebrew-formula.json
 
-The formula generator is for already-executable scripts and Node CLIs. Compiled
-projects need an explicit build recipe in their formula; start with a generated
-formula only if its archive already contains the executable you intend to run.
+Review the generated Formula/project-name.rb. When it is right:
 
-## Fable
+    scripts/publish-spec.sh --spec ~/development/project/homebrew-formula.json --publish
 
-Use:
+The generator downloads the immutable tag archive, calculates the SHA-256, and
+selects a fixed recipe for the declared build kind. It does not accept arbitrary
+build commands. Python package dependency graphs and unusual C build systems
+need a hand-authored formula extension after generation.
 
-    scripts/publish-formula.sh \
-      --repo afterdarksys/ads-fable-skills \
-      --tag v0.1.0 \
-      --formula fable \
-      --class Fable \
-      --description "Build, validate, and install reusable agent-neutral skills" \
-      --install bin/fable.js \
-      --node \
-      --publish
+## Quick path for scripts and Node CLIs
+
+scripts/publish-formula.sh remains available for projects without a checked-in
+spec. Fable also retains its short wrapper.
