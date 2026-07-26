@@ -59,35 +59,30 @@ curl --fail --location --silent --show-error "$URL" --output "$ARCHIVE"
 SHA256="$(shasum -a 256 "$ARCHIVE" | awk '{print $1}')"
 mkdir -p "$ROOT/Formula"
 
-if [ "$NODE" -eq 1 ]; then
-  RUNTIME='  depends_on "node"
-
-'
-  INSTALL_BLOCK='    (bin/"'"$FORMULA"'").write_env_script libexec/"'"$INSTALL"'",
-      PATH: "#{Formula["node"].opt_bin}:#{ENV["PATH"]}"'
-else
-  RUNTIME=''
-  INSTALL_BLOCK='    bin.write_exec_script libexec/"'"$INSTALL"'"'
-fi
-
-cat > "$TARGET" <<EOF
-class $CLASS < Formula
-  desc "$DESCRIPTION"
-  homepage "https://github.com/$REPO"
-  url "$URL"
-  sha256 "$SHA256"
-  license "$LICENSE"
-
-$RUNTIME  def install
-    libexec.install Dir["*"]
-$INSTALL_BLOCK
-  end
-
-  test do
-    assert_predicate bin/"$FORMULA", :executable?
-  end
-end
-EOF
+{
+  printf 'class %s < Formula\n' "$CLASS"
+  printf '  desc "%s"\n' "$DESCRIPTION"
+  printf '  homepage "https://github.com/%s"\n' "$REPO"
+  printf '  url "%s"\n' "$URL"
+  printf '  sha256 "%s"\n' "$SHA256"
+  printf '  license "%s"\n\n' "$LICENSE"
+  if [ "$NODE" -eq 1 ]; then
+    printf '  depends_on "node"\n\n'
+  fi
+  printf '  def install\n'
+  printf '    libexec.install Dir["*"]\n'
+  if [ "$NODE" -eq 1 ]; then
+    printf '    (bin/"%s").write_env_script libexec/"%s",\n' "$FORMULA" "$INSTALL"
+    printf '      PATH: "#{Formula["node"].opt_bin}:#{ENV["PATH"]}"\n'
+  else
+    printf '    bin.write_exec_script libexec/"%s"\n' "$INSTALL"
+  fi
+  printf '  end\n\n'
+  printf '  test do\n'
+  printf '    assert_predicate bin/"%s", :executable?\n' "$FORMULA"
+  printf '  end\n'
+  printf 'end\n'
+} > "$TARGET"
 
 echo "wrote $TARGET for $REPO $TAG"
 if [ "$PUBLISH" -eq 0 ]; then

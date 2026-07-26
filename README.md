@@ -28,3 +28,7 @@ need a hand-authored formula extension after generation.
 
 scripts/publish-formula.sh remains available for projects without a checked-in
 spec. Fable also retains its short wrapper.
+
+## License
+
+MIT, see [LICENSE](LICENSE).
