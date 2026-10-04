@@ -5,21 +5,21 @@
 class SecretserverCli < Formula
   desc "SecretServer.io CLI — enterprise secret management"
   homepage "https://secretserver.io"
-  version "1.0.0"
+  version "1.0.1"
   license "Proprietary"
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/afterdarksys/secretserver-cli/releases/download/v1.0.0/ss_1.0.0_darwin_amd64.tar.gz"
-      sha256 "a3a52f10ef84e00778cc0d578f5132446b5bc678ed0551b62c701e65a1d559cd"
+      url "https://github.com/afterdarksys/secretserver-cli/releases/download/v1.0.1/ss_1.0.1_darwin_amd64.tar.gz"
+      sha256 "49582d272f7a03e89da2501518b2beb1ce652bc227e5fbe77dbb5c8651bf0771"
 
       define_method(:install) do
         bin.install "ss"
       end
     end
     if Hardware::CPU.arm?
-      url "https://github.com/afterdarksys/secretserver-cli/releases/download/v1.0.0/ss_1.0.0_darwin_arm64.tar.gz"
-      sha256 "67992fb4a3662d6bb0412c4240bd54afcd944a9d34d195c94cd3515cb915c6fa"
+      url "https://github.com/afterdarksys/secretserver-cli/releases/download/v1.0.1/ss_1.0.1_darwin_arm64.tar.gz"
+      sha256 "5c427f70cdf506325276f5ed3b59f39306dd027eb385477e4ea10522217ba513"
 
       define_method(:install) do
         bin.install "ss"
@@ -29,15 +29,15 @@ class SecretserverCli < Formula
 
   on_linux do
     if Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
-      url "https://github.com/afterdarksys/secretserver-cli/releases/download/v1.0.0/ss_1.0.0_linux_amd64.tar.gz"
-      sha256 "828aff4ecd0a62578491bfc25a087cacad642f0eb211681f758ea61e447fd4c4"
+      url "https://github.com/afterdarksys/secretserver-cli/releases/download/v1.0.1/ss_1.0.1_linux_amd64.tar.gz"
+      sha256 "f495f7e8eeffa9b28c95252b7d66a441354e06f872700c6d2513c3ecc4facad5"
       define_method(:install) do
         bin.install "ss"
       end
     end
     if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://github.com/afterdarksys/secretserver-cli/releases/download/v1.0.0/ss_1.0.0_linux_arm64.tar.gz"
-      sha256 "f028c3d2b2c59f2cf83ea09fbf0374311d9419a4167532f0e3df4dc275fff00b"
+      url "https://github.com/afterdarksys/secretserver-cli/releases/download/v1.0.1/ss_1.0.1_linux_arm64.tar.gz"
+      sha256 "5e7431082095097912d216d726ddf99dfc5b01c0d2848b2c87237fa59990a518"
       define_method(:install) do
         bin.install "ss"
       end
